@@ -3,23 +3,28 @@ const popGame = document.getElementById('pop-game-name');
 const popPrize = document.getElementById('pop-prize-amount');
 
 /**
- * Opens the popup with specific game data
- * Hardcoded values are passed here via the HTML onclick attributes
+ * Handles showing the game details.
+ * Modify the onclick in HTML to change game names and prizes.
  */
 function openPopup(gameName, prizeAmount) {
     popGame.innerText = gameName;
     popPrize.innerText = prizeAmount;
     popup.style.display = 'flex';
+    
+    // Optional: Add a subtle haptic feel if on mobile
+    if (window.navigator.vibrate) {
+        window.navigator.vibrate(10);
+    }
 }
 
 /**
- * Closes the popup
+ * Closes the modal
  */
 function closePopup() {
     popup.style.display = 'none';
 }
 
-// Close popup if user clicks the dark overlay area
+// Close popup on outside click
 window.onclick = function(event) {
     if (event.target == popup) {
         closePopup();
