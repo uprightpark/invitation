@@ -1,11 +1,10 @@
 :root {
     --bg-dark: #070b14;
-    --metamong-main: #D1A1D6;    /* 메타몽 연보라 */
-    --metamong-glow: #E8C1EE;    /* 밝은 보라 광채 */
-    --neon-blue: #38bdf8;        /* 포인트 블루 */
-    --neon-green: #4ade80;       /* 완료 상태 */
-    --gold: #fbbf24;             /* 토탈 결과 */
-    --glass: rgba(30, 20, 45, 0.7); /* 보랏빛이 감도는 투명 배경 */
+    --neon-blue: #38bdf8;
+    --neon-green: #4ade80;
+    --neon-red: #ef4444;
+    --gold: #fbbf24;
+    --glass: rgba(15, 23, 42, 0.7);
 }
 
 * { 
@@ -16,10 +15,10 @@
 body, html {
     margin: 0; padding: 0;
     width: 100%; height: 100%;
-    font-family: 'Apple SD Gothic Neo', 'Pretendard', 'Malgun Gothic', sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-dark);
-    /* 이미지 경로가 맞는지 확인하세요 */
-    background-image: url('image1.jpg'); 
+    /* Background Image placeholder */
+    background-image: url('image1.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -27,229 +26,98 @@ body, html {
     overflow: hidden;
 }
 
-/* 배경 이미지 위에 덧씌워지는 반투명 레이어 (텍스트 가독성 향상) */
 .bg-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, 
-        rgba(7, 11, 20, 0.4), 
-        rgba(15, 10, 25, 0.8));
+    background: linear-gradient(to bottom, rgba(7, 11, 20, 0.5), rgba(7, 11, 20, 0.8));
     z-index: 1;
 }
 
 #app-container {
     position: relative; z-index: 2;
     width: 100%;
-    max-width: 430px; /* iPhone 16 가로 비율 */
+    max-width: 430px; /* iPhone 16 Width */
     height: 100%;
     padding: 60px 25px 40px 25px;
     display: flex; flex-direction: column;
 }
 
-header { 
-    margin-bottom: 35px; 
-    text-align: center; 
-}
-
-/* 메타몽 로고 스타일 */
-header h1.ditto-title { 
-    font-size: 2.8rem; 
-    font-weight: 900; 
-    letter-spacing: -1.5px; 
-    margin: 0; 
-    color: var(--metamong-main);
-    text-shadow: 0 0 15px rgba(209, 161, 214, 0.6);
-}
-
-header h1.ditto-title span { 
-    color: var(--neon-blue); 
-    font-style: italic;
-    margin-left: 4px;
-    font-size: 2.4rem;
-}
-
-header p { 
-    font-size: 0.75rem; 
-    color: var(--metamong-glow); 
-    letter-spacing: 2.5px; 
-    margin-top: 8px; 
-    font-weight: 700;
-    opacity: 0.8;
-}
+header { margin-bottom: 30px; text-align: center; }
+header h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin: 0; }
+header h1 span { color: var(--neon-blue); }
+header p { font-size: 0.75rem; color: #94a3b8; letter-spacing: 2px; margin-top: 5px; font-weight: bold; }
 
 #game-list {
-    display: flex; 
-    flex-direction: column; 
-    gap: 14px;
+    display: flex; flex-direction: column; gap: 12px;
     overflow-y: auto;
     padding-bottom: 20px;
-    /* 스크롤바 숨기기 */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
 }
-#game-list::-webkit-scrollbar { display: none; }
 
-/* 게임 박스 공통 스타일 */
+/* Base Game Box */
 .game-box {
     min-height: 85px;
     background: var(--glass);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(209, 161, 214, 0.2);
-    border-radius: 22px;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    display: flex; justify-content: space-between; align-items: center;
     padding: 0 25px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.game-title { 
-    font-size: 1.15rem; 
-    font-weight: 800; 
-    letter-spacing: -0.2px; 
-}
+.game-title { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px; }
+.status-badge { font-size: 0.65rem; font-weight: 900; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; }
 
-.status-badge { 
-    font-size: 0.65rem; 
-    font-weight: 900; 
-    padding: 5px 12px; 
-    border-radius: 8px; 
-    text-transform: uppercase; 
-}
+/* State: OPEN */
+.status-open { border-left: 6px solid var(--neon-blue); cursor: pointer; }
+.status-open:active { transform: scale(0.96); background: rgba(56, 189, 248, 0.15); }
+.status-open .status-badge { background: var(--neon-blue); color: #000; }
 
-/* OPEN 상태: 메타몽 보라색 */
-.status-open { 
-    border-left: 6px solid var(--metamong-main); 
-    cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-.status-open:active { 
-    transform: scale(0.96); 
-    background: rgba(209, 161, 214, 0.2); 
-}
-.status-open .status-badge { 
-    background: var(--metamong-main); 
-    color: #402a45; 
-}
+/* State: DONE */
+.status-done { border-left: 6px solid var(--neon-green); pointer-events: none; }
+.status-done .game-title { color: var(--neon-green); font-family: monospace; }
+.status-done .status-badge { background: var(--neon-green); color: #000; }
 
-/* DONE 상태: 네온 그린 */
-.status-done { 
-    border-left: 6px solid var(--neon-green); 
-    pointer-events: none; 
-}
-.status-done .game-title { 
-    color: var(--neon-green); 
-    font-family: 'Courier New', Courier, monospace; 
-}
-.status-done .status-badge { 
-    background: var(--neon-green); 
-    color: #003311; 
-}
+/* State: CLOSE */
+.status-close { border-left: 6px solid #475569; opacity: 0.4; pointer-events: none; }
+.status-close .status-badge { background: #475569; color: #fff; }
 
-/* CLOSE 상태: 잠금 */
-.status-close { 
-    border-left: 6px solid #475569; 
-    opacity: 0.45; 
-    pointer-events: none; 
-    filter: grayscale(0.5);
-}
-.status-close .status-badge { 
-    background: #475569; 
-    color: #fff; 
-}
-
-/* 하단 토탈 결과 섹션 */
-footer { 
-    margin-top: auto; 
-    padding-top: 25px; 
-}
-
+/* Footer / Total */
+footer { margin-top: auto; padding-top: 20px; }
 .total-box {
-    background: rgba(251, 191, 36, 0.12);
+    background: rgba(251, 191, 36, 0.1);
     border: 2px solid var(--gold);
-    border-radius: 24px;
-    padding: 22px;
+    border-radius: 20px;
+    padding: 20px;
     text-align: center;
-    backdrop-filter: blur(25px);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+.total-label { font-size: 0.75rem; font-weight: 900; color: var(--gold); letter-spacing: 4px; margin-bottom: 5px; display: block; }
+.total-value { font-size: 2.4rem; font-weight: 900; color: white; }
 
-.total-label { 
-    font-size: 0.75rem; 
-    font-weight: 900; 
-    color: var(--gold); 
-    letter-spacing: 4px; 
-    margin-bottom: 6px; 
-    display: block; 
-}
-
-.total-value { 
-    font-size: 2.5rem; 
-    font-weight: 900; 
-    color: white; 
-    text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
-}
-
-/* 팝업 모달 스타일 */
+/* Popup */
 #popup-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); 
-    z-index: 100;
-    display: none; 
-    justify-content: center; 
-    align-items: center;
-    padding: 35px;
+    background: rgba(0,0,0,0.85); z-index: 100;
+    display: none; justify-content: center; align-items: center;
+    padding: 30px;
 }
-
 #popup-content {
-    background: #130f1f; /* 진한 보라빛 검정 */
-    width: 100%;
-    border: 2px solid var(--metamong-main);
-    border-radius: 28px; 
-    padding: 40px 30px; 
-    text-align: center;
-    box-shadow: 0 0 50px rgba(209, 161, 214, 0.3);
+    background: #0f172a; width: 100%;
+    border: 2px solid var(--neon-blue);
+    border-radius: 25px; padding: 35px; text-align: center;
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
 }
-
-.popup-header { 
-    font-weight: 900; 
-    color: var(--metamong-main); 
-    letter-spacing: 3px; 
-    margin-bottom: 25px;
-    font-size: 0.9rem;
-}
-
-.popup-body p { 
-    font-size: 1.4rem; 
-    font-weight: 800; 
-    margin: 15px 0; 
-    color: #ffffff; 
-}
-
-.popup-body span { 
-    color: var(--gold); 
-}
+.popup-header { font-weight: 900; color: var(--neon-blue); letter-spacing: 3px; margin-bottom: 25px; }
+.popup-body p { font-size: 1.3rem; font-weight: 800; margin: 15px 0; color: #f8fafc; }
+.popup-body span { color: var(--gold); }
 
 .start-btn { 
-    background: var(--metamong-main); 
-    color: #402a45; 
-    font-size: 1.15rem; 
-    border: none;
-    width: 100%; 
-    padding: 18px; 
-    border-radius: 15px; 
-    font-weight: 900; 
-    margin-top: 25px; 
-    box-shadow: 0 5px 15px rgba(209, 161, 214, 0.4);
+    background: var(--neon-blue); color: #000; font-size: 1.1rem; border: none;
+    width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; margin-top: 20px; 
 }
-
 .close-btn { 
-    background: transparent; 
-    color: #8b7ea1; 
-    font-size: 0.95rem; 
-    border: none;
-    width: 100%; 
-    padding: 12px; 
-    margin-top: 12px; 
-    font-weight: bold; 
+    background: transparent; color: #64748b; font-size: 0.9rem; border: none;
+    width: 100%; padding: 10px; margin-top: 10px; font-weight: bold; 
 }
