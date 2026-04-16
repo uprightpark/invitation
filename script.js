@@ -11,22 +11,23 @@ const countdown = setInterval(function() {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Get the display element
     const clockElement = document.getElementById("clock");
     
-    // Format numbers: pad with leading zeros for consistency
+    // Formatting for a clean look
     const d = days.toString().padStart(2, '0');
     const h = hours.toString().padStart(2, '0');
     const m = minutes.toString().padStart(2, '0');
     const s = seconds.toString().padStart(2, '0');
 
-    // Update HTML
+    // Update display
     clockElement.innerHTML = `${d}:${h}:${m}:${s}`;
 
-    // Logic if the countdown reaches zero
+    // If countdown expires
     if (distance < 0) {
         clearInterval(countdown);
-        document.querySelector(".title").innerHTML = "EVENT STARTED";
+        document.querySelector(".main-title").innerHTML = "HAPPY BIRTHDAY!";
+        document.querySelector(".sub-title").style.display = "none";
+        document.querySelector(".celebration-text").innerHTML = "The party has officially begun!";
         clockElement.innerHTML = "00:00:00:00";
     }
 }, 1000);
