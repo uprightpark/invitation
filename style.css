@@ -35,7 +35,7 @@ body {
 /* Device Container (iPhone 17 Form Factor) */
 .device-frame {
   width: 100%;
-  max-width: 412px; /* Responsive iPhone 17 Width */
+  max-width: 412px;
   min-height: 890px;
   background-color: var(--bg-main);
   border-radius: 44px;
@@ -46,7 +46,6 @@ body {
   display: flex;
   flex-direction: column;
   padding-bottom: 50px;
-  /* Hide scrollbars */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -141,7 +140,7 @@ body {
   width: 100%;
   position: relative;
   overflow: hidden;
-  touch-action: pan-y; /* Allows vertical page scroll while capturing horizontal drag */
+  touch-action: pan-y;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
@@ -156,12 +155,12 @@ body {
   display: flex;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  padding-left: 20px; /* Aligns first card with header margin */
+  padding-left: 20px;
 }
 
 /* Photo Cards */
 .photo-card {
-  width: 280px; /* Visible neighbor preview size */
+  width: 280px;
   flex-shrink: 0;
   margin-right: 14px;
   border-radius: var(--radius-lg);
@@ -171,6 +170,7 @@ body {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
   transform: scale(0.93);
   opacity: 0.65;
+  cursor: pointer;
 }
 
 .photo-card.active {
@@ -243,6 +243,80 @@ body {
   width: 20px;
   border-radius: 10px;
   background-color: var(--card-bg);
+}
+
+/* Lightbox Modal Styles */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(5, 13, 18, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  padding: 20px;
+}
+
+.lightbox-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0.88);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-modal.open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #ffffff;
+  font-size: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 /* Responsive Desktop Tweaks */
