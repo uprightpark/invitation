@@ -1,30 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Invitation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Responsive Photo Gallery</title>
+  
+  <!-- Link to External Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="invitation-container">
-        <div class="content">
-            <h2 class="sub-title">You're invited to</h2>
-            <h1 class="main-title">The Big Birthday</h1>
-            <p class="celebration-text">Join us for a magical evening of cake and memories!</p>
-            
-            <div id="clock">00:00:00:00</div>
-            
-            <div class="labels">
-                <div>DAYS</div>
-                <div>HRS</div>
-                <div>MIN</div>
-                <div>SEC</div>
-            </div>
-        </div>
-    </div>
+  <div class="device-frame">
+    
+    <!-- Hero / Title Section -->
+    <header class="hero-section">
+      <div class="hero-content">
+        <span class="hero-badge">Featured Showcase</span>
+        <h1 class="hero-title">Visual Journeys</h1>
+        <p class="hero-subtitle">Swipe through curated photo galleries below</p>
+      </div>
+    </header>
 
-    <script src="script.js"></script>
+    <!-- Carousel Section 1 -->
+    <section class="gallery-section">
+      <div class="gallery-header">
+        <h2 class="photo-title">Urban Architecture</h2>
+      </div>
+
+      <div class="carousel-container" data-carousel="1">
+        <div class="carousel-track">
+          
+          <div class="photo-card active">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Minimal Space">
+              <div class="card-badge">01 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Glass Tower">
+              <div class="card-badge">02 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Modern Home">
+              <div class="card-badge">03 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=800&q=80" alt="City Geometry">
+              <div class="card-badge">04 / 04</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="meta-footer">
+        <p class="photo-explain">Exploring clean structural lines, modern materials, and dramatic urban perspectives across contemporary metropolitan landscapes.</p>
+        <div class="carousel-dots" data-dots-for="1"></div>
+      </div>
+    </section>
+
+    <!-- Carousel Section 2 -->
+    <section class="gallery-section">
+      <div class="gallery-header">
+        <h2 class="photo-title">Nature & Horizons</h2>
+      </div>
+
+      <div class="carousel-container" data-carousel="2">
+        <div class="carousel-track">
+          
+          <div class="photo-card active">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Alpine Valley">
+              <div class="card-badge">01 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Misty Forest">
+              <div class="card-badge">02 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=800&q=80" alt="Mountain Lake">
+              <div class="card-badge">03 / 04</div>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Sunset Coast">
+              <div class="card-badge">04 / 04</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="meta-footer">
+        <p class="photo-explain">Serene wilderness moments capturing the raw beauty of natural light, tranquil waters, and mountain vistas.</p>
+        <div class="carousel-dots" data-dots-for="2"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Link to External JavaScript File -->
+  <script src="script.js"></script>
 </body>
 </html>
