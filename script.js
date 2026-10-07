@@ -1,6 +1,6 @@
 /**
  * SmoothPhysicsCarousel
- * Provides physics-based smooth drag and flick momentum swipe transitions.
+ * Handles physics-based swipe drag and image modal click interactions.
  */
 class SmoothPhysicsCarousel {
   constructor(containerElement) {
@@ -10,18 +10,17 @@ class SmoothPhysicsCarousel {
     this.carouselId = this.container.getAttribute('data-carousel');
     this.dotsContainer = document.querySelector(`.carousel-dots[data-dots-for="${this.carouselId}"]`);
     
-    // Geometry calculations
+    // Geometry settings
     this.cardWidth = 280;
     this.cardGap = 14;
     this.itemOffset = this.cardWidth + this.cardGap;
-    this.paddingLeft = 20;
     
-    // State variables
+    // State
     this.currentIndex = 0;
     this.currentTranslate = 0;
     this.prevTranslate = 0;
     
-    // Gesture tracking state
+    // Gesture tracking
     this.isDragging = false;
     this.startX = 0;
     this.startY = 0;
@@ -65,9 +64,9 @@ class SmoothPhysicsCarousel {
     window.addEventListener('touchmove', (e) => this.onDragMove(e), { passive: false });
     window.addEventListener('touchend', (e) => this.onDragEnd(e));
 
-    // Pointer / Mouse Events
+    // Mouse / Pointer Events
     this.container.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'touch') return; // Handled by touch events
+      if (e.pointerType === 'touch') return;
       this.onDragStart(e);
     });
     window.addEventListener('pointermove', (e) => {
@@ -77,6 +76,18 @@ class SmoothPhysicsCarousel {
     window.addEventListener('pointerup', (e) => {
       if (e.pointerType === 'touch') return;
       this.onDragEnd(e);
+    });
+
+    // Card Click Handler for Lightbox (distinguishes tap vs. drag)
+    this.cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        if (Math.abs(this.dragDeltaX) < 10) {
+          const img = card.querySelector('img');
+          if (img) {
+            openLightbox(img.src);
+          }
+        }
+      });
     });
   }
 
@@ -98,7 +109,6 @@ class SmoothPhysicsCarousel {
     this.startTime = Date.now();
     this.dragDeltaX = 0;
     
-    // Disable CSS transition during active direct dragging for 1:1 movement
     this.track.style.transition = 'none';
     this.prevTranslate = -this.currentIndex * this.itemOffset;
   }
@@ -112,13 +122,12 @@ class SmoothPhysicsCarousel {
     const deltaX = currentX - this.startX;
     const deltaY = currentY - this.startY;
 
-    // Lock direction on initial drag movement
     if (!this.hasDeterminedDirection) {
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 6) {
-        this.isScrollLocked = true; // Horizontal drag locked
+        this.isScrollLocked = true;
         this.hasDeterminedDirection = true;
       } else if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 6) {
-        this.isDragging = false; // Release for vertical page scroll
+        this.isDragging = false;
         this.hasDeterminedDirection = true;
         return;
       }
@@ -130,7 +139,6 @@ class SmoothPhysicsCarousel {
       this.dragDeltaX = deltaX;
       let targetTranslate = this.prevTranslate + this.dragDeltaX;
 
-      // Rubber-banding elasticity effect at boundaries
       const maxTranslate = 0;
       const minTranslate = -(this.cards.length - 1) * this.itemOffset;
 
@@ -152,9 +160,8 @@ class SmoothPhysicsCarousel {
     this.isScrollLocked = false;
 
     const dragDuration = Date.now() - this.startTime;
-    const velocity = Math.abs(this.dragDeltaX) / dragDuration; // In pixels per ms
+    const velocity = Math.abs(this.dragDeltaX) / dragDuration;
 
-    // Determine target index using distance or swipe flick velocity
     if (velocity > 0.25 || Math.abs(this.dragDeltaX) > this.itemOffset * 0.22) {
       if (this.dragDeltaX < 0) {
         this.currentIndex = Math.min(this.currentIndex + 1, this.cards.length - 1);
@@ -170,7 +177,6 @@ class SmoothPhysicsCarousel {
     this.currentTranslate = -this.currentIndex * this.itemOffset;
     
     if (animate) {
-      // Smooth momentum easing transition curve
       this.track.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
     } else {
       this.track.style.transition = 'none';
@@ -178,7 +184,6 @@ class SmoothPhysicsCarousel {
 
     this.track.style.transform = `translate3d(${this.currentTranslate}px, 0, 0)`;
 
-    // Update active card class states
     this.cards.forEach((card, idx) => {
       card.classList.toggle('active', idx === this.currentIndex);
     });
@@ -187,7 +192,35 @@ class SmoothPhysicsCarousel {
   }
 }
 
-// Initialize all carousels when the DOM is ready
+/* Lightbox Controller Functions */
+const modal = document.getElementById('lightboxModal');
+const modalImg = document.getElementById('lightboxImg');
+const closeBtn = document.getElementById('lightboxClose');
+
+function openLightbox(imageSrc) {
+  if (!modal || !modalImg) return;
+  modalImg.src = imageSrc;
+  modal.classList.add('open');
+}
+
+function closeLightbox() {
+  if (!modal) return;
+  modal.classList.remove('open');
+}
+
+if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+if (modal) {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeLightbox();
+  });
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Initialize Carousels
 document.addEventListener('DOMContentLoaded', () => {
   const carousels = document.querySelectorAll('.carousel-container');
   carousels.forEach((container) => new SmoothPhysicsCarousel(container));
